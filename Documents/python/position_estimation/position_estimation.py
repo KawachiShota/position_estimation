@@ -15,8 +15,6 @@ ave6 = -55
 
 disp = 4
 
-a = 0
-b = 0
 
 class Position_estimator:
 
@@ -24,23 +22,30 @@ class Position_estimator:
         self.value = 0
         self.ylist = 0
 
-    def random_data1(self, value):
-        self.value = value
+    def random_data1(self, a,value1):
+        self.value1 = value1
+        self.a = a
         r_data = np.loadtxt('received_data.txt',comments='#',delimiter=',')
+        print r_data
+        received1 = r_data[a,value1]
         if a == 9:
             a = 0
-        received_data = r_data[a,value]
-        a = a + 1
-        return received_data
+        else:
+            a = a + 1
 
-    def random_data2(self, value):
-        self.value = value
+        return received1
+
+    def random_data2(self, b,value2):
+        self.value2 = value2
+        self.b = b
         r_data = np.loadtxt('received_data.txt',comments='#',delimiter=',')
+        received2 = r_data[b,value2]
         if b == 9:
             b = 0
-        received_data = r_data[b,value]
-        b = b + 1
-        return received_data
+        else:
+            b = b + 1
+
+        return received2
 
     def average_calculation(self):
         data = np.loadtxt('all_data.txt',comments='#',delimiter=',')

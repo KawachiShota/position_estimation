@@ -4,9 +4,10 @@ import position_estimation
 
 serA = serial.Serial('/dev/ttyTHS0', 115200)
 serB = serial.Serial('/dev/ttyTHS1', 115200)
+
 #serC = serial.Serial('/dev/ttyACM0')
 
-p_cal = position_estimation.Position_estimator()
+r_cal = normal_distribution_likelihood.Normal_distribution_likelihood()
 
 #prior_probability
 x1 = 100/6
@@ -25,7 +26,10 @@ initial_value2 = -71
 #value for check
 p_check = 1
 column1 = (p_check-1)*2
-column2 = (p_check-1)*2+1
+column2 = (p_check-1)*2 + 1
+
+line1 = 0
+line2 = 0
 
 #parameter_calculation(Average and Dispersion)
 average = p_cal.average_calculation()
@@ -40,8 +44,8 @@ while True:
     #lineB = serB.read(8)
     #r_data_2 = int(lineB[4:7])
 
-    r_data_1 = p_cal.random_data1(column1)
-    r_data_2 = p_cal.random_data2(column2)
+    r_data_1 = p_cal.random_data1(line1,column1)
+    r_data_2 = p_cal.random_data2(line2,column2)
     print "Data1=",r_data_1
     print "Data2=",r_data_2
 
