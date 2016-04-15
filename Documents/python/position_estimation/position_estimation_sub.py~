@@ -1,0 +1,39 @@
+import math
+
+class Bayes_update:
+
+    def __init__(self):
+
+    def randum_data(self, value):
+        self.value = value
+        received_data = value
+        return received_data
+
+    def likelihood(self, value):
+
+    def posterior_probability(self,major,minor):
+
+    def judgement(self):
+
+
+    def conversion(self):
+     
+        M = 0
+        B = 0
+        F = 0
+        
+        for i in range(0, len(self.slice_list)):
+            B += self.slice_list[i][2]
+            F += 1
+
+        M = B/F
+
+        dataA = []
+        dataA.append(1)
+        dataA.append(M)
+        return(dataA)
+
+
+
+                      
+            
