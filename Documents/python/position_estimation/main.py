@@ -1,15 +1,15 @@
 import serial, time, math
-"import pyb"
+#import pyb
 import position_estimation
 
 serA = serial.Serial('/dev/ttyTHS0', 115200)
 serB = serial.Serial('/dev/ttyTHS1', 115200)
 
-"usb = pyb.USB_VCP()"
+#usb = pyb.USB_VCP()
 
-p_cal = position_estimation.Bayes_update()
+p_cal = position_estimation.Position_estimator()
 
-"prior probability"
+#prior_probability
 x1 = 100/6
 x2 = 100/6
 x3 = 100/6
@@ -17,13 +17,14 @@ x4 = 100/6
 x5 = 100/6
 x6 = 100/6
 
-"iBeacon"
+x = [x1, x2, x3, x4, x5, x6]
+
+#iBeacon
 initial_value = -65
 
 while True:
 
-    "r_data = received_data"
-
+    #r_data = received_data
     """lineA = serA.read(8)
     received_data_1 = lineA
     lineB = serB.read(8)
@@ -35,32 +36,30 @@ while True:
     print "Data2=",r_data_2
 
 
-    "likelihood = l"
-    l = p_cal.likelihood(r_data_1,r_data_2)
-    print l
+    #parameter_calculation(Average and Dispersion)
+    p_cal.parameter_calculation()
+
+
+    #likelihood
+    likelihood = p_cal.likelihood(r_data_1,r_data_2)
+    print "likelihood=",likelihood
+
+
+    #posterior_probability = y(1 to 6)
+    y = p_cal.posterior_probability(x,likelihood)
+    print "posterior_probability=",y
+
+    #position_judgement
+    position = p_cal.judgement(y)
+    print "position=",position
+
+
+    #probability_replacement
+    x = y
+    print "x=",x
 
     """
-    "posterior_probability = y(1 to 6)"
-    y1 = p_cal.posterior_probability(x1,m)
-    y2 = p_cal.posterior_probability(x2,m)
-    y3 = p_cal.posterior_probability(x3,m)
-    y4 = p_cal.posterior_probability(x4,m)
-    y5 = p_cal.posterior_probability(x5,m)
-    y6 = p_cal.posterior_probability(x6,m)
-
-
-    "position_judgement"
-    position = p_cal.judgement(y1,y2,y3,y4,y5,y6)
-
-    "probability_replacement"
-    x1=y1
-    x2=y2
-    x3=y3
-    x4=y4
-    x5=y5
-    x6=y6
-
-    "send_data"
+    #send_data
     send_data = p_cal.conversion(position,r_data_1,r_data_2)
     send_data = []
     send_data.append(position)
