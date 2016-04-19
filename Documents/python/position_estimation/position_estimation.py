@@ -1,9 +1,9 @@
 import math, copy
+import numpy as np
 
 #Average and Dispersion
 
 l1_file = open('L1.txt','r')
-data_file = open('all_data.txt','r')
 
 ave1 = -80
 ave2 = -75
@@ -25,28 +25,52 @@ class Position_estimator:
         received_data = value
         return received_data
 
-    def parameter_calculation(self):
-        for line in data_file:
-            all_list = line.strip().split('\t')
-            data = []
-            for item in all_list:
-                data.append(int(item))
-            print data
-        lis = data[12]
-        print lis
-        #a = line, b = column, c = Left or Right
+    def average_calculation(self):
+        data = np.loadtxt('all_data.txt',comments='#',delimiter=',')
+        print data
+        print data.shape
+
+        alist = []
+
+        for j in range(0,data.shape[1]):
+            pre_alist = []
+            for i in range(0,data.shape[0]):
+                pre_alist.append(data[i,j])
+            pre_ave = sum(pre_alist)/len(pre_alist)
+            alist.append(pre_ave)
+        print alist
+        return alist
+
+    def dispersion_calculation(self,ave_cal):
+        self.ave_cal = ave_cal
+        data = np.loadtxt('all_data.txt',comments='#',delimiter=',')
+        print data.shape
+
+        dlist = []
+
+        for j in range(0,(data.shape[1]/2)):
+            pre_dlist = []
+            for i in range(0,data.shape[0]):
+                d_cal = pow((data[i,j*2]-ave_cal[j*2]),2) + pow((data[i,j*2+1]-ave_cal[j*2+1]),2)
+                pre_dlist.append(d_cal)
+            pre_disp = sum(pre_dlist)/len(pre_dlist)/2
+            dlist.append(pre_disp)
+        print dlist
+
+        return dlist
 
 
-    def likelihood(self, xl,xr):
+    def likelihood(self, xl,xr,ave,disp):
         self.xl = xl
         self.xr = xr
+        self.ave = ave
+        self.disp = disp
 
-        alist = [ave1, ave2, ave3, ave4, ave5, ave6]
         pre_llist = []
 
-        for ave in alist:
-            total = (xl-ave)**2+(xr-ave)**2
-            log_l_cal = -2*math.log(disp)-total/2/disp**2
+        for m in [0,2,4,6,8,10]:
+            total = (xl-ave[m])**2+(xr-ave[m+1])**2
+            log_l_cal = -2*math.log(disp[m/2])-total/2/(disp[m/2])**2
             l_cal = math.exp(log_l_cal)
             pre_llist.append(l_cal)
         return pre_llist

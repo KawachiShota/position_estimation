@@ -4,8 +4,7 @@ import position_estimation
 
 serA = serial.Serial('/dev/ttyTHS0', 115200)
 serB = serial.Serial('/dev/ttyTHS1', 115200)
-
-#usb = pyb.USB_VCP()
+#serC = serial.Serial('/dev/ttyACM0')
 
 p_cal = position_estimation.Position_estimator()
 
@@ -20,28 +19,30 @@ x6 = 100/6
 x = [x1, x2, x3, x4, x5, x6]
 
 #iBeacon
-initial_value = -65
+#initial_value1 = -66
+#initial_value2 = -59
+
+#parameter_calculation(Average and Dispersion)
+average = p_cal.average_calculation()
+dispersion = p_cal.dispersion_calculation(average)
 
 while True:
 
     #r_data = received_data
-    """lineA = serA.read(8)
-    received_data_1 = lineA
-    lineB = serB.read(8)
-    received_data_2 = lineB"""
+    lineA = serA.read(8)
+    r_data_1 = int(lineA[4:7])
 
-    r_data_1 = p_cal.randum_data(initial_value)
-    r_data_2 = p_cal.randum_data(initial_value)
+    lineB = serB.read(8)
+    r_data_2 = int(lineB[4:7])
+
+    #r_data_1 = p_cal.randum_data(initial_value1)
+    #r_data_2 = p_cal.randum_data(initial_value2)
     print "Data1=",r_data_1
     print "Data2=",r_data_2
 
 
-    #parameter_calculation(Average and Dispersion)
-    p_cal.parameter_calculation()
-
-
     #likelihood
-    likelihood = p_cal.likelihood(r_data_1,r_data_2)
+    likelihood = p_cal.likelihood(r_data_1,r_data_2,average,dispersion)
     print "likelihood=",likelihood
 
 
@@ -58,18 +59,10 @@ while True:
     x = y
     print "x=",x
 
-    """
     #send_data
-    send_data = p_cal.conversion(position,r_data_1,r_data_2)
-    send_data = []
-    send_data.append(position)
-    send_date.append(r_data_1)
-    send_date.append(r_data_2)
-    print send_data
-    send_val = str(send_data)
-    usb.send(send_val)
-    """
-    time.sleep(1)
+    #ser.write(str(position))
+
+    time.sleep(1.0)
 
 serA.close()
 serB.close()
