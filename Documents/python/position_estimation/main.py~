@@ -19,8 +19,13 @@ x6 = 100/6
 x = [x1, x2, x3, x4, x5, x6]
 
 #iBeacon
-#initial_value1 = -66
-#initial_value2 = -59
+initial_value1 = -79
+initial_value2 = -71
+
+#value for check
+p_check = 1
+column1 = (p_check-1)*2
+column2 = (p_check-1)*2+1
 
 #parameter_calculation(Average and Dispersion)
 average = p_cal.average_calculation()
@@ -29,14 +34,14 @@ dispersion = p_cal.dispersion_calculation(average)
 while True:
 
     #r_data = received_data
-    lineA = serA.read(8)
-    r_data_1 = int(lineA[4:7])
+    #lineA = serA.read(8)
+    #r_data_1 = int(lineA[4:7])
 
-    lineB = serB.read(8)
-    r_data_2 = int(lineB[4:7])
+    #lineB = serB.read(8)
+    #r_data_2 = int(lineB[4:7])
 
-    #r_data_1 = p_cal.randum_data(initial_value1)
-    #r_data_2 = p_cal.randum_data(initial_value2)
+    r_data_1 = p_cal.random_data1(column1)
+    r_data_2 = p_cal.random_data2(column2)
     print "Data1=",r_data_1
     print "Data2=",r_data_2
 

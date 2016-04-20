@@ -1,5 +1,6 @@
 import math, copy
 import numpy as np
+import random
 
 #Average and Dispersion
 
@@ -14,15 +15,31 @@ ave6 = -55
 
 disp = 4
 
+a = 0
+b = 0
+
 class Position_estimator:
 
     def __init__(self):
         self.value = 0
         self.ylist = 0
 
-    def randum_data(self, value):
+    def random_data1(self, value):
         self.value = value
-        received_data = value
+        r_data = np.loadtxt('received_data.txt',comments='#',delimiter=',')
+        if a == 9:
+            a = 0
+        received_data = r_data[a,value]
+        a = a + 1
+        return received_data
+
+    def random_data2(self, value):
+        self.value = value
+        r_data = np.loadtxt('received_data.txt',comments='#',delimiter=',')
+        if b == 9:
+            b = 0
+        received_data = r_data[b,value]
+        b = b + 1
         return received_data
 
     def average_calculation(self):
