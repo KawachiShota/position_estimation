@@ -20,14 +20,13 @@ ynew_cal = update.Update()
 
 while True:
 
-    #received_data_1 = r_cal.received_data1()
-    #received_data_2 = r_cal.received_data2()
-    received_data_1 = -73
-    received_data_2 = -71
+    #received_data1 = r_cal.received_data1()
+    #received_data2 = r_cal.received_data2()
+    received_data1 = -73
+    received_data2 = -71
 
-
-    #print "Data1=",received_data_1
-    #print "Data2=",received_data_2
+    print "Data1=",received_data1
+    print "Data2=",received_data2
 
     a_list = pa_cal.average_calculation()
     d_list = pa_cal.dispersion_calculation(a_list)
@@ -44,10 +43,10 @@ while True:
     #print "posterior_probability=",y_list
 
     position = po_cal.y_judgement(y_list)
-    #print position
+    print "position=",position
 
     y_new = ynew_cal.y_update(y_list)
     #print y_new
 
-    time.sleep(1.0)
+    time.sleep(0)
 

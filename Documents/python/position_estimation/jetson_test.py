@@ -1,0 +1,12 @@
+# -*- coding: utf-8 -*-
+import serial, time
+import random
+
+ser = serial.Serial("/dev/ttyACM0")
+
+
+while True:
+    x = random.randint(1,6)
+    ser.write(str(x))	#位置出力
+    print(x)
+    time.sleep(2.0)

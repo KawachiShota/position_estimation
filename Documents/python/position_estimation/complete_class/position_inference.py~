@@ -10,7 +10,7 @@ class Position_inference:
 
     def y_judgement(self,ylist):
         self.ylist = ylist
-        serC = serial.Serial("/dev/ttyACM0")
+        #serC = serial.Serial("/dev/ttyACM0")
 
         p1 = ylist[0]
         p2 = ylist[1]
@@ -45,7 +45,7 @@ class Position_inference:
         elif j == p6:
             po = 6
 
-        serC.write(str(po))
+        #serC.write(str(po))
         return po
 
 
